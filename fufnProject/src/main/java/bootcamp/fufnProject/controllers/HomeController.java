@@ -229,38 +229,37 @@ public class HomeController {
         return "403";
     }
 
-//    @PostMapping(value = "/addbucket")
-//    @PreAuthorize("isAuthenticated()")
-//    public String addBucket(Model model,
-//                            @RequestParam(name = "id") Long id){
-//
-//        Users user = getUser();
-//        System.out.println(user);
-//        ShopItems item = dataBaseBean.getShopItem(id);
-//
-//        if (item != null) {
-//
-//            List<ShopItems> shopItems = user.getShopItems();
-////            System.out.println(user.getShopItems());
-//
-//            if (shopItems == null) {
-//
-//                shopItems = new ArrayList<>();
-//
-//            }
-//
-////            shopItems.add(item);
-//
-//            user.setShopItems(shopItems);
-//            dataBaseBean.saveUser(user);
-//
-//            return "redirect:/?success";
-//
-//        }
-//
-//        return "redirect:/?fail";
-//
-//    }
+    @PostMapping(value = "/addbucket")
+    @PreAuthorize("isAuthenticated()")
+    public String addBucket(@RequestParam(name = "id") Long id){
+
+        Users user = getUser();
+        System.out.println(user.getShopItems());
+        ShopItems item = dataBaseBean.getShopItem(id);
+
+        if (item != null) {
+
+            List<ShopItems> shopItems = user.getShopItems();
+            System.out.println(user.getShopItems());
+
+            if (shopItems == null) {
+
+                shopItems = new ArrayList<>();
+
+            }
+
+            shopItems.add(item);
+
+            user.setShopItems(shopItems);
+
+
+            return "redirect:/?success";
+
+        }
+
+        return "redirect:/?fail";
+
+    }
 
     private Users getUser(){
 

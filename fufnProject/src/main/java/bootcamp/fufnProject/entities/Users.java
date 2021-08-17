@@ -34,6 +34,9 @@ public class Users implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Roles> roles;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<ShopItems> shopItems;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
@@ -68,4 +71,5 @@ public class Users implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }
