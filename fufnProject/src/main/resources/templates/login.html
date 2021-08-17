@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main.html">
+    <div layout:fragment="siteContent">
+        <div class = "container">
+            <div class = "row">
+                <div class = "col-12">
+                    <h2 class = "text-center">Welcome to FUFN SHOP</h2>
+                </div>
+            </div>
+        </div>
+        </li>
+        <div class = "container">
+            <div class = "row">
+                <div class = "col-6 mx-auto">
+                    <div class = "mt-2">
+                         <form th:action="@{'/authpage'}" method="post">
+                             <div class = "mt-2">
+                                 <label>Email:</label>
+                                 <input type = "email" class = "form-control mt-2" name = "user_email" required>
+                             </div>
+                             <div class = "mt-2">
+                                 <label>Password:</label>
+                                 <input type = "password" class = "form-control mt-2" name = "user_password" required>
+                             </div>
+                             <div class = "mt-2">
+                                 <button class = "btn btn-success">Log in</button>
+                             </div>
+                         </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</html>
+

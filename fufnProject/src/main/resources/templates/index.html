@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main.html">
+    <div layout:fragment="siteContent">
+        <div class = "container">
+            <div class = "row">
+                <div class = "col-12">
+                    <h2 class = "text-center">Welcome to FUFN SHOP</h2>
+                </div>
+            </div>
+        </div>
+        </li>
+        <div class = "container">
+            <div class = "row">
+                <div class = "col-4" th:each="item : ${items}">
+                    <div class="card text-center mt-4" >
+                        <div class="card-header" th:text="${item.name}">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title" th:text= "'$' + ${item.price}" style="color: green"></h5>
+                            <a th:href="@{'/itemdetail/' + ${item.id} + '-item.html'}">
+                                <img th:src="${item.picture_url}" class = "img-fluid" style="max-height: 450px; width: 100%">
+                            </a>
+                            <p class="card-text" th:text = "${item.description}"></p>
+                            <form th:action="@{'/addbucket'}" method="post">
+                                <input type = "hidden" th:value="${item.id}" name = "id">
+                                <button class="btn btn-success" style="width: 100%">Buy now</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</html>
+

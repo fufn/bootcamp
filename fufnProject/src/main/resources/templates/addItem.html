@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main.html">
+    <div layout:fragment="siteContent">
+        <div class = "container mt-3">
+            <div class = "row">
+                <div class = "col-12">
+                    <button class = "btn-success" data-toggle="modal" data-target="#myModal">+ADD ITEM</button>
+                </div>
+            </div>
+        </div>
+
+        <div id = "myModal" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">New Task</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form th:action="@{'/additem'}" method="post">
+                        <div class="modal-body">
+                            <span>Name: </span> <br>
+                            <input type = "text" class = "form-control mt-2" name = "name" required>
+                            <span>Brand</span>
+                            <select class = "form-select mt-2" name = "brand_id">
+                                <option th:each="br : ${brands}" th:text="${br.name + '/' + br.country}" th:value="${br.id}"></option>
+                            </select>
+                            <span>Description: </span> <br>
+                            <textarea class = "form-control mt-2" name = "description" required> </textarea>
+                            <span>Price </span> <br>
+                            <input type = "number" class = "form-control mt-2" name = "price" required>
+                            <span>Amount </span> <br>
+                            <input type = "number" class = "form-control mt-2" name = "amount" required>
+                            <span>Picture URL</span>
+                            <input type = "text" class = "form-control mt-2" name = "url" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-success">Add Item</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class = "container">
+            <div class = "row mt-3">
+                <div class = "col-12">
+                    <div class="alert alert-success alert-dismissible fade show" role="alert" th:if = "${param.success!=null}">
+                        Item deleted successfully!
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert" th:if = "${param.successadd!=null}">
+                        Item added successfully!
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <table class = "table table-striped">
+                        <thead>
+                        <th>ID</th>
+                        <th>NAME</th>
+                        <th>BRAND</th>
+                        <th>DESCRIPTION</th>
+                        <th>PRICE</th>
+                        <th>AMOUNT</th>
+                        <th>DETAILES</th>
+                        </thead>
+                        <tbody>
+                        <tr th:each="tov : ${items}">
+                            <td th:text = "${tov.id}"></td>
+                            <td th:text = "${tov.name}"></td>
+                            <td th:text = "${tov.brand.name + '/' + tov.brand.country}"></td>
+                            <td th:text = "${tov.description}"></td>
+                            <td th:text = "${tov.price}"></td>
+                            <td th:text = "${tov.amount}"></td>
+                            <td>
+                                <a th:href="@{'/itemdetail/' + ${tov.id} + '-item.html'}" class = "btn btn-success"> DETAILES </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</html>

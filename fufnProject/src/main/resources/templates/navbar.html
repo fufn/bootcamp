@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #ff61cf" xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{'/'}">FUFN SHOP</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0" sec:authorize="isAuthenticated()">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{'/'}" >Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link active" th:href="@{'/profile'}" th:text="${CURRENT_USER.full_name}"></a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link active" th:href="@{'/additem'}" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MODERATOR')">Admin Panel</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link active" href="JavaScript:void(0)" onclick="logout()">Log out</a>
+                    <script>
+                        function logout(){
+                            document.getElementById("form").submit();
+                        }
+                    </script>
+                    <form th:action="@{'/tologout'}" method="post" id = "form"></form>
+                </li>
+            </ul>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0" sec:authorize="isAnonymous()">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{'/'}">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link active" th:href="@{'/loginpage'}">Log in</a>
+                </li>
+            </ul>
+            <form th:action="@{'/search'}" method="get">
+                <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>

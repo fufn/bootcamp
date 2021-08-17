@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/main.html">
+    <div layout:fragment="siteContent">
+        <div class = "container">
+            <div class = "row">
+                <div class = "col-6 mx-auto">
+                    <table class = "table table-striped">
+                        <tr th:each="cat : ${item.categories}">
+                            <form th:action="@{'/deletecategory'}" method="post">
+                                <input type = "hidden" name = "id" th:value="${item.id}">
+                                <input type = "hidden" name = "category_id" th:value="${cat.id}">
+                                <td th:text="${cat.name + '/' + cat.code}"></td>
+                                <td width="5%" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MODERATOR')">
+                                    <button class = "btn btn-danger">-</button>
+                                </td>
+                            </form>
+                        </tr>
+                    </table>
+                    <table class = "table table-striped" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MODERATOR')">
+                        <tr th:each="cat : ${categories}">
+                            <form th:action="@{'/assigncategory'}" method="post">
+                                <input type = "hidden" name = "id" th:value="${item.id}">
+                                <input type = "hidden" name = "category_id" th:value="${cat.id}">
+                                <td th:text="${cat.name + '/' + cat.code}"></td>
+                                <td width="5%" >
+                                    <button class = "btn btn-success">+</button>
+                                </td>
+                            </form>
+                        </tr>
+                    </table>
+                    <form th:action="@{'/saveitem'}" method="post" th:if = "${item!=null}">
+                        <input type = "hidden" th:value="${item.id}" name = "id">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert" th:if = "${param.success!=null}">
+                            Item updated successfully!
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        <div class = "mt-2">
+                            <label> Name: </label>
+                            <input type = "text" name = "name" th:value = "${item.name}" class = "form-control mt-2 " >
+                        </div>
+                        <div class = "mt-2">
+                            <label> Brand: </label>
+                            <select class = "form-select mt-2" name = "brand_id">
+                                <option th:each="br : ${brands}" th:text="${br.name + '/' + br.country}" th:value="${br.id}" th:selected="${br.id==item.brand.id}"></option>
+                            </select>
+                        </div>
+                        <div class = "mt-2">
+                            <label> Description: </label>
+                            <textarea class = "form-control" th:text = "${item.description}" name = "description" ></textarea>
+                        </div>
+                        <div class = "mt-2">
+                            <label> Price: </label>
+                            <input type = "number" name = "price" th:value = "${item.price}" class = "form-control mt-2 " >
+                        </div>
+                        <div class = "mt-2">
+                            <label> Amount: </label>
+                            <input type = "number" name = "amount" th:value = "${item.amount}" class = "form-control mt-2 ">
+                        </div>
+                        <div class = "mt-2">
+                            <label> Picture URL: </label>
+                            <input type = "text" name = "url" th:value = "${item.picture_url}" class = "form-control mt-2 ">
+                        </div>
+                        <div class = "mt-3" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MODERATOR')">
+                            <button class = "btn btn-success" > Save Item </button>
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteItemModal">
+                                Delete Item
+                            </button>
+                        </div>
+                    </form>
+                    <div class="modal fade" id="deleteItemModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form th:action="@{'/deleteitem'}" method="post">
+                                    <input type="hidden" name="id" th:value="${item.id}">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">Delete Item</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">NO</button>
+                                        <button class="btn btn-danger">YES</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</html>
